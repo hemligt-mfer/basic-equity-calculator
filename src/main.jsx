@@ -9,6 +9,7 @@ let activeFieldForPlayerHand = null;
 let activeCommunityCard = null;
 let cardsInUse = [];
 
+// Color options
 const SUIT_COLORS = {
     clubs: "#1dd1a1",
     diamonds: "#54a0ff",
@@ -17,8 +18,6 @@ const SUIT_COLORS = {
 };
 const SELECTED_COMMUNITY_CARD = "#A9A9A9";
 
-//document.addEventListener("click", checkCards);
-//document.addEventListener("change", checkCards);
 document.addEventListener("click", checkClick);
 
 // If a community card is marked and the user clicks somewhere else, reset the background color
@@ -34,55 +33,6 @@ function checkClick(e) {
         activeCommunityCard = null;
     }
 }
-
-// Initially my plan was to allow the user to also type in their cards in the text fields, but
-// it turns out that it's very combersome to make sure that the user types in correct cards
-// as well as cards that haven't already been used.
-// This function won't be necessary, as long as we don't allow the user to be able to type in
-// their hands manually in the text fields. Maybe we won't allow that for simplicity's sake?
-/*function checkCards() {
-    // Kolla så att cardsInUse stämmer överens med hur det ser ut på själva sidan!!!!
-    // Uppdatera sedan, så att kort som tagits bort kan användas igen osv;
-    const handsInTheUI = [];
-    let community_cards = document.getElementsByClassName("community_card");
-    let player_hands = document.getElementsByClassName("player_hand");
-    //log(player_hands);
-
-    // Add all the cards that are in play on the board
-    for (let i = 0; i < community_cards.length; i++) {
-        if (community_cards[i].innerHTML != "?") {
-            //log(community_cards[i].innerHTML);
-            handsInTheUI.push(community_cards[i].innerHTML);
-        }
-    }
-
-    // Add all the cards that are in use by the players to handsInTheUI
-    for (let i = 0; i < player_hands.length; i++) {
-        if (player_hands[i].value) {
-            if (player_hands[i].value.length > 2) {
-                const first_card =
-                    player_hands[i].value[0] + player_hands[i].value[1];
-                const second_card =
-                    player_hands[i].value[2] + player_hands[i].value[3];
-                handsInTheUI.push(first_card);
-                handsInTheUI.push(second_card);
-            } else {
-                handsInTheUI.push(player_hands[i].value);
-            }
-        }
-    }
-
-    //log(`handsInTheUI = ${handsInTheUI}\n`);
-}*/
-
-// TODO: Make sure that we regex and check so that the user enter a card that isn't in use. Also
-// make sure that the user types input in the correct format. At least for now, we won't
-// implement this function.
-/*function textFieldOnKeyDown(e) {
-    const pattern = /([AKQJ]|[2-9])(s|h|d|c)/;
-    const result = e.target.value.match(pattern);
-    //alert(result);
-}*/
 
 // Make a table of all cards. Give the <td> element class names "s", "h", "d" and "c"
 // representing spades, hearts, diamonds, clubs.
