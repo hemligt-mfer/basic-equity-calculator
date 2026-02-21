@@ -1,8 +1,8 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import { CardGroup, OddsCalculator } from "poker-odds-calculator";
-import { DECK } from "./deck.js";
-import "./index.css";
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { CardGroup, OddsCalculator } from 'poker-odds-calculator';
+import { DECK } from './deck.js';
+import './index.css';
 
 let playerCount = 2;
 let activeFieldForPlayerHand = null;
@@ -11,25 +11,25 @@ let cardsInUse = [];
 
 // Color options
 const SUIT_COLORS = {
-    clubs: "#1dd1a1",
-    diamonds: "#54a0ff",
-    hearts: "#ee5253",
-    spades: "#8395a7",
+    clubs: '#1dd1a1',
+    diamonds: '#54a0ff',
+    hearts: '#ee5253',
+    spades: '#8395a7',
 };
-const SELECTED_COMMUNITY_CARD = "#A9A9A9";
+const SELECTED_COMMUNITY_CARD = '#A9A9A9';
 
-document.addEventListener("click", checkClick);
+document.addEventListener('click', checkClick);
 
 // If a community card is marked and the user clicks somewhere else, reset the background color
 // for that card, so it is unmarked.
 function checkClick(e) {
-    const card_classes = ["c", "d", "h", "s"];
+    const card_classes = ['c', 'd', 'h', 's'];
     if (
         activeCommunityCard &&
-        e.target.className != "community_card" &&
+        e.target.className != 'community_card' &&
         !card_classes.includes(e.target.className)
     ) {
-        document.getElementById(activeCommunityCard).style.backgroundColor = "";
+        document.getElementById(activeCommunityCard).style.backgroundColor = '';
         activeCommunityCard = null;
     }
 }
@@ -44,7 +44,7 @@ function AllCards() {
     }
     return (
         <>
-            <table id="all_cards">
+            <table id='all_cards'>
                 {card_lists.map((row) => {
                     return (
                         <tr>
@@ -91,13 +91,13 @@ function clickCard(e) {
             cardsInUse.push(hand);
 
             // Add color to the community card for the different suits
-            if (hand[1] == "c") {
+            if (hand[1] == 'c') {
                 communityCardSelected.style.color = SUIT_COLORS.clubs;
-            } else if (hand[1] == "d") {
+            } else if (hand[1] == 'd') {
                 communityCardSelected.style.color = SUIT_COLORS.diamonds;
-            } else if (hand[1] == "h") {
+            } else if (hand[1] == 'h') {
                 communityCardSelected.style.color = SUIT_COLORS.hearts;
-            } else if (hand[1] == "s") {
+            } else if (hand[1] == 's') {
                 communityCardSelected.style.color = SUIT_COLORS.spades;
             }
 
@@ -107,8 +107,8 @@ function clickCard(e) {
                 id++;
                 document.getElementById(
                     activeCommunityCard,
-                ).style.backgroundColor = "";
-                activeCommunityCard = document.getElementById("cc" + id).id;
+                ).style.backgroundColor = '';
+                activeCommunityCard = document.getElementById('cc' + id).id;
                 document.getElementById(
                     activeCommunityCard,
                 ).style.backgroundColor = SELECTED_COMMUNITY_CARD;
@@ -131,7 +131,7 @@ function CommunityCards() {
     function clickCommunityCard(e) {
         if (activeCommunityCard) {
             document.getElementById(activeCommunityCard).style.backgroundColor =
-                "";
+                '';
         }
         activeCommunityCard = e.target.id;
         document.getElementById(activeCommunityCard).style.backgroundColor =
@@ -142,39 +142,39 @@ function CommunityCards() {
     return (
         <>
             <h2>Community cards</h2>
-            <table id="board">
+            <table id='board'>
                 <tr>
                     <td
-                        id="cc1"
-                        class="community_card"
+                        id='cc1'
+                        class='community_card'
                         onClick={clickCommunityCard}
                     >
                         ?
                     </td>
                     <td
-                        id="cc2"
-                        class="community_card"
+                        id='cc2'
+                        class='community_card'
                         onClick={clickCommunityCard}
                     >
                         ?
                     </td>
                     <td
-                        id="cc3"
-                        class="community_card"
+                        id='cc3'
+                        class='community_card'
                         onClick={clickCommunityCard}
                     >
                         ?
                     </td>
                     <td
-                        id="cc4"
-                        class="community_card"
+                        id='cc4'
+                        class='community_card'
                         onClick={clickCommunityCard}
                     >
                         ?
                     </td>
                     <td
-                        id="cc5"
-                        class="community_card"
+                        id='cc5'
+                        class='community_card'
                         onClick={clickCommunityCard}
                     >
                         ?
@@ -194,59 +194,59 @@ function textFieldOnFocus(e) {
 function Players() {
     return (
         <>
-            <table id="players" width="100%">
+            <table id='players' width='100%'>
                 <thead>
                     <tr>
-                        <th id="player_column"></th>
-                        <th id="hand_column">Hand</th>
-                        <th id="equity_columnn">Equity</th>
+                        <th id='player_column'></th>
+                        <th id='hand_column'>Hand</th>
+                        <th id='equity_columnn'>Equity</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr id="player1" class="player">
+                    <tr id='player1' class='player'>
                         <td>
-                            <label for="player1">Player 1:</label>
+                            <label for='player1'>Player 1:</label>
                         </td>
                         <td>
                             <input
-                                type="text"
-                                name="hand1"
-                                id="hand1"
+                                type='text'
+                                name='hand1'
+                                id='hand1'
                                 onFocus={textFieldOnFocus}
-                                className="player_hand"
+                                className='player_hand'
                                 readOnly
                             />
                         </td>
                         <td>
                             <input
-                                type="text"
-                                name="equity1"
-                                id="equity1"
-                                className="equity"
+                                type='text'
+                                name='equity1'
+                                id='equity1'
+                                className='equity'
                                 readOnly
                             ></input>
                         </td>
                     </tr>
-                    <tr id="player2" class="player">
+                    <tr id='player2' class='player'>
                         <td>
-                            <label for="player2">Player 2:</label>
+                            <label for='player2'>Player 2:</label>
                         </td>
                         <td>
                             <input
-                                type="text"
-                                name="hand2"
-                                id="hand2"
+                                type='text'
+                                name='hand2'
+                                id='hand2'
                                 onFocus={textFieldOnFocus}
-                                className="player_hand"
+                                className='player_hand'
                                 readOnly
                             />
                         </td>
                         <td>
                             <input
-                                type="text"
-                                name="equity2"
-                                id="equity2"
-                                className="equity"
+                                type='text'
+                                name='equity2'
+                                id='equity2'
+                                className='equity'
                                 readOnly
                             ></input>
                         </td>
@@ -257,15 +257,17 @@ function Players() {
     );
 }
 
+// TODO: Break upp all the buttons to single components, so we can use <Suspense> for Calculate
 // Render the buttons for adding a new player, calculating the equities and clearing all inputs.
+
 function Buttons() {
     function add_player() {
         if (playerCount <= 9) {
             playerCount++;
-            const tableOfPlayers = document.getElementById("players");
+            const tableOfPlayers = document.getElementById('players');
             let row = tableOfPlayers.insertRow(playerCount);
-            row.className = "player";
-            row.id = "player" + playerCount;
+            row.className = 'player';
+            row.id = 'player' + playerCount;
             row.insertCell(0).innerHTML =
                 `<label for="player${playerCount}">Player ${playerCount}:</label>`;
             row.insertCell(1).innerHTML =
@@ -273,28 +275,24 @@ function Buttons() {
             row.insertCell(2).innerHTML =
                 `<input type="text" name="equity${playerCount}" id="equity${playerCount}" class="equity" readonly />`;
             document
-                .getElementById("hand" + playerCount)
-                .addEventListener("focus", textFieldOnFocus);
+                .getElementById('hand' + playerCount)
+                .addEventListener('focus', textFieldOnFocus);
         }
     }
 
+    // TODO: Clean up this code and make it a component
     function calculate() {
         // First make sure that all input is correct
-        const handInputs = document.getElementsByClassName("player_hand");
+        const handInputs = document.getElementsByClassName('player_hand');
         const handsInStr = [];
         for (let i = 0; i < handInputs.length; i++) {
             if (handInputs[i].value.length < 4) {
                 //handInputs[i].style.backgroundColor = "red";
-                alert("You must specify two cards for every player!");
+                alert('You must specify two cards for every player!');
                 return null;
             }
             handsInStr.push(handInputs[i].value);
         }
-
-        /*if (handsInStr.length <= 1) {
-        alert("You must specify at least two hands with two cards!");
-        return null;
-    }*/
 
         // Convert the hands into object CardGroup from poker-odds-calculartor
         const hands = [];
@@ -302,73 +300,68 @@ function Buttons() {
             hands.push(CardGroup.fromString(handsInStr[i]));
         }
 
-        let board_str = "";
-        let community_cards = document.getElementsByClassName("community_card");
+        let board_str = '';
+        let community_cards = document.getElementsByClassName('community_card');
         for (let i = 0; i < community_cards.length; i++) {
-            if (community_cards[i].innerText != "?") {
+            if (community_cards[i].innerText != '?') {
                 board_str += community_cards[i].innerText;
             }
         }
         if (board_str.length != 0 && board_str.length < 6) {
-            alert("Must specify at least three community cards or zero.");
+            alert('Must specify at least three community cards or zero.');
             return null;
         }
 
         if (board_str.length >= 6) {
             // Make sure the community cards are specified in the correct order
             if (
-                community_cards[0].innerText == "?" ||
-                community_cards[1].innerText == "?" ||
-                community_cards[2].innerText == "?"
+                community_cards[0].innerText == '?' ||
+                community_cards[1].innerText == '?' ||
+                community_cards[2].innerText == '?'
             ) {
                 alert("The community cards aren't in the correct order.");
                 return null;
             }
-
             const board = CardGroup.fromString(board_str);
             const result = OddsCalculator.calculate(hands, board);
             for (let i = 0; i < result.equities.length; i++) {
-                document.getElementById("equity" + (i + 1)).value =
-                    result.equities[i].toString() + "%";
+                document.getElementById('equity' + (i + 1)).value =
+                    result.equities[i].toString() + '%';
             }
 
             // TODO: Give the input field with the highest equity a green color?
-            /*const equities = document.getElementsByClassName("equity");
-        let highest_score = 0;
-        const highest_id = 0;
-        for (let i = 0; i < result.equities.length; i++) {
-            if (result.equities[i].getEquity() > highest_score) {
-                highest_score = result.equities[i].getEquity();
-                highest_id = i;
+        } else if (board_str == '') {
+            const result = OddsCalculator.calculate(hands);
+            for (let i = 0; i < result.equities.length; i++) {
+                document.getElementById('equity' + (i + 1)).value =
+                    result.equities[i].toString() + '%';
             }
-        }
-        alert("Störst equity har " + highest_id);*/
         }
     }
 
     function clear() {
         // Remove all players except for two
         if (playerCount > 2) {
-            let inputs = document.getElementsByClassName("player");
+            let inputs = document.getElementsByClassName('player');
             //log(inputs.length);
             for (let i = inputs.length - 1; i >= 2; i--) {
                 inputs[i].remove();
             }
             playerCount = 2;
         }
-        document.getElementById("hand1").value = "";
-        document.getElementById("hand1").style.backgroundColor = "";
-        document.getElementById("hand2").value = "";
-        document.getElementById("hand2").style.backgroundColor = "";
-        document.getElementById("equity1").value = "";
-        document.getElementById("equity2").value = "";
+        document.getElementById('hand1').value = '';
+        document.getElementById('hand1').style.backgroundColor = '';
+        document.getElementById('hand2').value = '';
+        document.getElementById('hand2').style.backgroundColor = '';
+        document.getElementById('equity1').value = '';
+        document.getElementById('equity2').value = '';
 
         // Reset community cards
-        const cc = document.getElementsByClassName("community_card");
+        const cc = document.getElementsByClassName('community_card');
         for (let i = 0; i < cc.length; i++) {
-            cc[i].innerHTML = "?";
-            cc[i].style.color = "#000000";
-            cc[i].style.backgroundColor = "";
+            cc[i].innerHTML = '?';
+            cc[i].style.color = '#000000';
+            cc[i].style.backgroundColor = '';
         }
         cardsInUse = [];
 
@@ -378,14 +371,14 @@ function Buttons() {
 
     return (
         <>
-            <div id="buttons">
-                <button type="button" onClick={add_player}>
+            <div id='buttons'>
+                <button type='button' onClick={add_player}>
                     Add player
                 </button>
-                <button type="submit" onClick={calculate}>
+                <button type='submit' onClick={calculate}>
                     Calculate
                 </button>
-                <button type="reset" onClick={clear}>
+                <button type='reset' onClick={clear}>
                     Clear
                 </button>
             </div>
@@ -393,12 +386,12 @@ function Buttons() {
     );
 }
 
-createRoot(document.getElementById("root")).render(
+createRoot(document.getElementById('root')).render(
     <StrictMode>
-        <div id="left_column">
+        <div id='left_column'>
             <AllCards />
         </div>
-        <div id="right_column">
+        <div id='right_column'>
             <CommunityCards />
             <Players />
             <Buttons />
