@@ -1,22 +1,13 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { DECK, SUIT_COLORS, SELECTED_COMMUNITY_CARD } from './constants.js';
 import { CardGroup, OddsCalculator } from 'poker-odds-calculator';
-import { DECK } from './deck.js';
 import './index.css';
 
 let playerCount = 2;
 let activeFieldForPlayerHand = null;
 let activeCommunityCard = null;
 let cardsInUse = [];
-
-// Color options
-const SUIT_COLORS = {
-    clubs: '#1dd1a1',
-    diamonds: '#54a0ff',
-    hearts: '#ee5253',
-    spades: '#8395a7',
-};
-const SELECTED_COMMUNITY_CARD = '#A9A9A9';
 
 document.addEventListener('click', checkClick);
 
@@ -37,7 +28,7 @@ function checkClick(e) {
 // Make a table of all cards. Give the <td> element class names "s", "h", "d" and "c"
 // representing spades, hearts, diamonds, clubs.
 function AllCards() {
-    const cards = Object.keys(DECK).reverse();
+    const cards = DECK;
     let card_lists = [];
     for (let i = 0; i < cards.length; i += 4) {
         card_lists.push(cards.slice(i, i + 4));
@@ -45,24 +36,28 @@ function AllCards() {
     return (
         <>
             <table id='all_cards'>
-                {card_lists.map((row) => {
-                    return (
-                        <tr>
-                            {row.map((hand) => {
-                                {
-                                    return (
-                                        <td
-                                            className={hand[1]}
-                                            onClick={clickCard}
-                                        >
-                                            {hand}
-                                        </td>
-                                    );
-                                }
-                            })}
-                        </tr>
-                    );
-                })}
+                {/*<thead>Cards</thead>*/}
+                <tbody>
+                    {card_lists.map((row) => {
+                        return (
+                            <tr>
+                                {row.map((hand) => {
+                                    {
+                                        return (
+                                            <td
+                                                key={hand[1]}
+                                                className={hand[1]}
+                                                onClick={clickCard}
+                                            >
+                                                {hand}
+                                            </td>
+                                        );
+                                    }
+                                })}
+                            </tr>
+                        );
+                    })}
+                </tbody>
             </table>
         </>
     );
@@ -84,8 +79,7 @@ function clickCard(e) {
     // If a community card is active, add the card to the selected community card.
     if (activeCommunityCard) {
         const hand = e.target.innerHTML;
-        const communityCardSelected =
-            document.getElementById(activeCommunityCard);
+        const communityCardSelected = document.getElementById(activeCommunityCard);
         if (!isInUse(hand)) {
             communityCardSelected.innerHTML = hand;
             cardsInUse.push(hand);
@@ -105,13 +99,10 @@ function clickCard(e) {
             let id = Number(communityCardSelected.id[2]);
             if (id < 5) {
                 id++;
-                document.getElementById(
-                    activeCommunityCard,
-                ).style.backgroundColor = '';
+                document.getElementById(activeCommunityCard).style.backgroundColor = '';
                 activeCommunityCard = document.getElementById('cc' + id).id;
-                document.getElementById(
-                    activeCommunityCard,
-                ).style.backgroundColor = SELECTED_COMMUNITY_CARD;
+                document.getElementById(activeCommunityCard).style.backgroundColor =
+                    SELECTED_COMMUNITY_CARD;
             }
         }
     }
@@ -130,8 +121,7 @@ function isInUse(card) {
 function CommunityCards() {
     function clickCommunityCard(e) {
         if (activeCommunityCard) {
-            document.getElementById(activeCommunityCard).style.backgroundColor =
-                '';
+            document.getElementById(activeCommunityCard).style.backgroundColor = '';
         }
         activeCommunityCard = e.target.id;
         document.getElementById(activeCommunityCard).style.backgroundColor =
@@ -143,43 +133,25 @@ function CommunityCards() {
         <>
             <h2>Community cards</h2>
             <table id='board'>
-                <tr>
-                    <td
-                        id='cc1'
-                        class='community_card'
-                        onClick={clickCommunityCard}
-                    >
-                        ?
-                    </td>
-                    <td
-                        id='cc2'
-                        class='community_card'
-                        onClick={clickCommunityCard}
-                    >
-                        ?
-                    </td>
-                    <td
-                        id='cc3'
-                        class='community_card'
-                        onClick={clickCommunityCard}
-                    >
-                        ?
-                    </td>
-                    <td
-                        id='cc4'
-                        class='community_card'
-                        onClick={clickCommunityCard}
-                    >
-                        ?
-                    </td>
-                    <td
-                        id='cc5'
-                        class='community_card'
-                        onClick={clickCommunityCard}
-                    >
-                        ?
-                    </td>
-                </tr>
+                <tbody>
+                    <tr>
+                        <td id='cc1' className='community_card' onClick={clickCommunityCard}>
+                            ?
+                        </td>
+                        <td id='cc2' className='community_card' onClick={clickCommunityCard}>
+                            ?
+                        </td>
+                        <td id='cc3' className='community_card' onClick={clickCommunityCard}>
+                            ?
+                        </td>
+                        <td id='cc4' className='community_card' onClick={clickCommunityCard}>
+                            ?
+                        </td>
+                        <td id='cc5' className='community_card' onClick={clickCommunityCard}>
+                            ?
+                        </td>
+                    </tr>
+                </tbody>
             </table>
         </>
     );
@@ -203,7 +175,7 @@ function Players() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr id='player1' class='player'>
+                    <tr id='player1' className='player'>
                         <td>
                             <label for='player1'>Player 1:</label>
                         </td>
@@ -227,7 +199,7 @@ function Players() {
                             ></input>
                         </td>
                     </tr>
-                    <tr id='player2' class='player'>
+                    <tr id='player2' className='player'>
                         <td>
                             <label for='player2'>Player 2:</label>
                         </td>
@@ -258,9 +230,8 @@ function Players() {
 }
 
 // TODO: Break upp all the buttons to single components, so we can use <Suspense> for Calculate
-// Render the buttons for adding a new player, calculating the equities and clearing all inputs.
 
-function Buttons() {
+function AddPlayerButton() {
     function add_player() {
         if (playerCount <= 9) {
             playerCount++;
@@ -271,25 +242,44 @@ function Buttons() {
             row.insertCell(0).innerHTML =
                 `<label for="player${playerCount}">Player ${playerCount}:</label>`;
             row.insertCell(1).innerHTML =
-                `<input type="text" name="hand${playerCount}" id="hand${playerCount}" class="player_hand" readonly />`;
+                `<input type="text" name="hand${playerCount}" id="hand${playerCount}" className="player_hand" readonly />`;
             row.insertCell(2).innerHTML =
-                `<input type="text" name="equity${playerCount}" id="equity${playerCount}" class="equity" readonly />`;
+                `<input type="text" name="equity${playerCount}" id="equity${playerCount}" className="equity" readonly />`;
             document
                 .getElementById('hand' + playerCount)
                 .addEventListener('focus', textFieldOnFocus);
         }
     }
 
-    // TODO: Clean up this code and make it a component
+    return (
+        <button type='button' onClick={add_player}>
+            Add player
+        </button>
+    );
+}
+
+function CalculateButton() {
+    function showErrMessage(text) {
+        const messageBox = document.getElementById('message');
+        messageBox.style.visibility = 'visible';
+        messageBox.style.color = 'red';
+        messageBox.style.border = '1px red solid';
+        messageBox.innerHTML = text;
+    }
+
     function calculate() {
+        if (document.getElementById('message').style.visibility == 'visible') {
+            document.getElementById('message').style.visibility = 'hidden';
+        }
+
         // First make sure that all input is correct
         const handInputs = document.getElementsByClassName('player_hand');
         const handsInStr = [];
         for (let i = 0; i < handInputs.length; i++) {
             if (handInputs[i].value.length < 4) {
                 //handInputs[i].style.backgroundColor = "red";
-                alert('You must specify two cards for every player!');
-                return null;
+                showErrMessage('You must specify two cards for every player!');
+                return;
             }
             handsInStr.push(handInputs[i].value);
         }
@@ -308,8 +298,8 @@ function Buttons() {
             }
         }
         if (board_str.length != 0 && board_str.length < 6) {
-            alert('Must specify at least three community cards or zero.');
-            return null;
+            showErrMessage('Must specify at least three community cards or zero.');
+            return;
         }
 
         if (board_str.length >= 6) {
@@ -319,8 +309,8 @@ function Buttons() {
                 community_cards[1].innerText == '?' ||
                 community_cards[2].innerText == '?'
             ) {
-                alert("The community cards aren't in the correct order.");
-                return null;
+                showErrMessage(`The community cards aren't in the correct order.`);
+                return;
             }
             const board = CardGroup.fromString(board_str);
             const result = OddsCalculator.calculate(hands, board);
@@ -339,6 +329,14 @@ function Buttons() {
         }
     }
 
+    return (
+        <button type='submit' onClick={calculate}>
+            Calculate
+        </button>
+    );
+}
+
+function ClearButton() {
     function clear() {
         // Remove all players except for two
         if (playerCount > 2) {
@@ -370,19 +368,9 @@ function Buttons() {
     }
 
     return (
-        <>
-            <div id='buttons'>
-                <button type='button' onClick={add_player}>
-                    Add player
-                </button>
-                <button type='submit' onClick={calculate}>
-                    Calculate
-                </button>
-                <button type='reset' onClick={clear}>
-                    Clear
-                </button>
-            </div>
-        </>
+        <button type='reset' onClick={clear}>
+            Clear
+        </button>
     );
 }
 
@@ -394,7 +382,12 @@ createRoot(document.getElementById('root')).render(
         <div id='right_column'>
             <CommunityCards />
             <Players />
-            <Buttons />
+            <div id='buttons'>
+                <AddPlayerButton />
+                <CalculateButton />
+                <ClearButton />
+            </div>
+            <div id='message'></div>
         </div>
     </StrictMode>,
 );
